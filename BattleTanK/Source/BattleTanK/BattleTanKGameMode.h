@@ -13,7 +13,7 @@ class BATTLETANK_API ABattleTanKGameMode : public AGameMode
 {
 	GENERATED_BODY()
 	
-	// setting repo
+	
 	
 	
 };

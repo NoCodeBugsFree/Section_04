@@ -1,20 +1,3 @@
-##########################
-# Unreal Generated Files #
-##########################
-*/Build
-*/Binaries
-*/DerivedDataCache
-*/Intermediate
-*/Saved
-Escape/Content/StarterContent/
-
-######################
-# VS Generated Files #
-######################
-*.VC.db
-*.suo
-*.VC.opendb
-*.sln
-
-#/Escape/Escape.VC.VC.opendb
-BattleTanK/Content/StarterContent/
+BattleTanK/Content/Tank/Meshes/
+BattleTanK/Content/Tank/Materials/
+BattleTanK/Content/Materials/
