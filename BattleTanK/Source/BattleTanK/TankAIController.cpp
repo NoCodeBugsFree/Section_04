@@ -4,22 +4,35 @@
 #include "TankAIController.h"
 #include "Tank.h"
 
-ATank* ATankAIController::GetControlledTank() const
-{
-	return Cast<ATank>(GetPawn());
-}
-
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	ATank* PossessedTank = GetControlledTank();
-	if (PossessedTank)
+}
+
+ATank* ATankAIController::GetPlayerTank() const
+{
+	const UWorld* World = GetWorld();
+	if (World)
 	{
-		UE_LOG(LogTemp, Error, TEXT("PossessedTank = %s"), *GetControlledTank()->GetName());
+		APlayerController* PlayerController = World->GetFirstPlayerController();
+		if (PlayerController && GetPawn())
+		{
+			ATank* Tank = Cast<ATank>(PlayerController->GetPawn());
+			return Tank;
+		}
 	}
+	return nullptr;
+}
+
+ATank* ATankAIController::GetControlledTank() const
+{
+	if (GetPawn())
+	{
+		return Cast<ATank>(GetPawn());
+	} 
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("AI Controller NOT POSSESSED a Tank!"));
+		return nullptr;
 	}
 }
