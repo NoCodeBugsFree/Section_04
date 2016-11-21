@@ -27,15 +27,63 @@ void ATankPlayerController::AimTowardsCrosshair()
 	FVector HitLocation; // Out parameter
 	if (GetSightRayHitLocation(HitLocation)) // has a "side-effect". is going to linetrace 
 	{
-		UE_LOG(LogTemp, Error, TEXT("HitLocation = %s"), *HitLocation.ToString());
+		//UE_LOG(LogTemp, Error, TEXT("Look Direction = %s"), *HitLocation.ToString());
 		// TODO tell controller tank to aim at this point
 	}
 }
 
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 {
-	HitLocation = FVector(2.f, 3.f, 4.f);
+	// find the crosshair position in pixel coordinates
+	int32 ViewportSizeX, ViewportSizeY;
+
+	// Helper to get the size of the HUD canvas for this player controller. 
+	// Returns 0 if there is no HUD
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+
+	// aim dot location on screen
+	FVector2D ScreenLocation = FVector2D(CrosshairXLocation * ViewportSizeX, CrosshairYLocation * ViewportSizeY);
+	
+	// "De-project" the screen position of the crosshair to a world direction
+	FVector LookDirection;
+	if (GetLookDirection(ScreenLocation, LookDirection))
+	{
+		// linetrace along that look direction and see what we hit (up to max range)
+		if (GetLookVectorHitLocation(LookDirection, HitLocation))
+		{
+
+		}
+	}
+	
+	
 	return true;
+}
+
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const
+{
+	
+	// APlayerController::DeprojectScreenPositionToWorld
+	// Convert current mouse 2D position to World Space 3D position and direction. 
+	// Returns false if unable to determine value.
+
+	FVector CameraWorldLocation; // to be ignored
+	// ignore CameraWorldLocation - it's camera world location
+	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, CameraWorldLocation, LookDirection);
+}
+
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const
+{
+	FHitResult HitResult;
+	FVector StartLocation = PlayerCameraManager->GetCameraLocation(); // may be muzzle location ?
+	FVector EndLocation = StartLocation + LineTraceRange * LookDirection;
+	
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECollisionChannel::ECC_Visibility))
+	{
+		HitLocation = HitResult.Location;
+		return true;
+	}
+	HitLocation = FVector(0);
+	return false;
 }
 
 // get world location of linetrace through crosshair, true if it hits the landscape
