@@ -23,10 +23,15 @@ public:
 	
 	void AimAt(FVector WorldSpaceAim);
 
+	UFUNCTION(BlueprintCallable, Category = "AAA")
+	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
+
 protected:
 
 
 
 private:
+
+	UStaticMeshComponent* Barrel;
 	
 };
