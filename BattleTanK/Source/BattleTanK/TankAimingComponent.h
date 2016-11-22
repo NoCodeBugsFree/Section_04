@@ -21,7 +21,7 @@ public:
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 	
-	void AimAt(FVector WorldSpaceAim);
+	void AimAt(FVector WorldSpaceAim, float LaunchSpeed);
 
 	UFUNCTION(BlueprintCallable, Category = "AAA")
 	void SetBarrelReference(UStaticMeshComponent* BarrelToSet);
