@@ -10,6 +10,23 @@ void ATankAIController::BeginPlay()
 
 }
 
+void ATankAIController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	if (GetPlayerTank())
+	{
+		// TODO move towards the player
+
+		// aim towards the player
+		FVector AimLocation = GetPlayerTank()->GetActorLocation();
+		GetControlledTank()->AimAt(AimLocation);
+
+		// fire if ready
+		
+	}
+}
+
 ATank* ATankAIController::GetPlayerTank() const
 {
 	const UWorld* World = GetWorld();
@@ -24,6 +41,7 @@ ATank* ATankAIController::GetPlayerTank() const
 	}
 	return nullptr;
 }
+
 
 ATank* ATankAIController::GetControlledTank() const
 {
