@@ -2,6 +2,7 @@
 
 #include "BattleTanK.h"
 #include "TankAimingComponent.h"
+#include "TankBarrel.h"
 
 
 // Sets default values for this component's properties
@@ -13,6 +14,8 @@ UTankAimingComponent::UTankAimingComponent()
 	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
+	//Barrel = CreateDefaultSubobject<UTankBarrel>(TEXT("TankBarrel"));
+
 }
 
 
@@ -46,7 +49,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	} // If no solution found do nothing
 }
 
-void UTankAimingComponent::SetBarrelReference(UStaticMeshComponent* BarrelToSet)
+void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
 	Barrel = BarrelToSet;
 }
@@ -60,9 +63,9 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	FRotator BarrelRotator = Barrel->GetForwardVector().Rotation();
 	FRotator AimAsRotator = AimDirection.Rotation();
 	FRotator DeltaRotator = AimAsRotator - BarrelRotator;
-	UE_LOG(LogTemp, Error, TEXT("DeltaRotator %s "), *DeltaRotator.ToString());
-
+	
 	// Move the barrel the right amount this frame
+	Barrel->Elevate(5.f); // TODO Remove Magic Number
 	// Given a max elevation speed and the frame time
 	
 }
