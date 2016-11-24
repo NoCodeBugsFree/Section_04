@@ -11,7 +11,6 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = true;
 
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(TEXT("TankAimingComponent"));
-
 }
 
 // Called when the game starts or when spawned
@@ -25,6 +24,7 @@ void ATank::BeginPlay()
 void ATank::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+
 }
 
 // Called to bind functionality to input

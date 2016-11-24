@@ -40,6 +40,6 @@ private:
 
 	/**  sensible starting value 1700 m/s */
 	UPROPERTY(EditAnywhere, Category = "AAA")
-	float LaunchSpeed = 10000.f; 
-	
+	float LaunchSpeed = 10000.f;
+
 };

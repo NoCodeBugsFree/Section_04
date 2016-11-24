@@ -32,6 +32,9 @@ protected:
 
 private:
 
+	void MoveBarrelTowards(FVector AimDirection);
+	
+	UPROPERTY()
 	UStaticMeshComponent* Barrel;
 	
 };
