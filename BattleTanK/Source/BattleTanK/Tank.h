@@ -24,6 +24,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AAA")
 	void SetTurretReference(UTankTurret* TurretToSet);
 
+	/** Tank Fires  */
+	UFUNCTION(BlueprintCallable, Category = "AAA")
+	void Fire();
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
@@ -42,7 +46,7 @@ private:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
-
+	
 	/**  sensible starting value 1700 m/s */
 	UPROPERTY(EditAnywhere, Category = "AAA")
 	float LaunchSpeed = 10000.f;

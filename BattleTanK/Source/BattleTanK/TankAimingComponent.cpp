@@ -23,7 +23,6 @@ void UTankAimingComponent::BeginPlay()
 
 }
 
-
 // Called every frame
 void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
@@ -69,10 +68,8 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	FRotator AimAsRotator = AimDirection.Rotation();
 	FRotator DeltaRotator = AimAsRotator - BarrelRotator;
 	
-	// Move the barrel the right amount this frame
+	// Move the barrel and turret the right amount this frame
 	Barrel->Elevate(DeltaRotator.Pitch); 
 	Turret->Rotate(DeltaRotator.Yaw);
-	// Given a max elevation speed and the frame time
-	
 }
 

@@ -33,7 +33,11 @@ void ATank::Tick( float DeltaTime )
 void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	Super::SetupPlayerInputComponent(InputComponent);
+}
 
+void ATank::Fire()
+{
+	UE_LOG(LogTemp, Error, TEXT("ATank::Fire()"));
 }
 
 void ATank::AimAt(FVector HitLocation)
