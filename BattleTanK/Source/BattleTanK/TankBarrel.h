@@ -25,7 +25,7 @@ private:
 	
 	/** Sensible Default  */
 	UPROPERTY(EditAnywhere, Category = "AAA")
-	float MaxDegreesPerSecond = 20.f;
+	float MaxDegreesPerSecond = 5.f;
 
 	/** Sensible Default  */
 	UPROPERTY(EditAnywhere, Category = "AAA")
