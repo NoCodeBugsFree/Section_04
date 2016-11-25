@@ -58,6 +58,19 @@ void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
 	Turret = TurretToSet;
 }
 
+FTransform UTankAimingComponent::GetBarrelSocketTransform() const
+{
+	if (Barrel)
+	{
+		return Barrel->GetSocketTransform("Projectile");
+	} 
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Barrel is NULL!"));
+		return FTransform();
+	}
+}
+
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	// Work-out difference between current barrel rotation and AimDirection

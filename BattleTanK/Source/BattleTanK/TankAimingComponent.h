@@ -29,6 +29,8 @@ public:
 
 	void SetTurretReference(UTankTurret* TurretToSet);
 
+	FTransform GetBarrelSocketTransform() const;
+
 protected:
 
 

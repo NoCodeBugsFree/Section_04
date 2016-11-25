@@ -5,6 +5,7 @@
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
+#include "Projectile.h"
 
 // Sets default values
 ATank::ATank()
@@ -38,6 +39,22 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 void ATank::Fire()
 {
 	UE_LOG(LogTemp, Error, TEXT("ATank::Fire()"));
+	
+	auto World = GetWorld();
+	if(World)
+	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.Instigator = Instigator;
+
+		if (TankAimingComponent == nullptr)
+		{
+			UE_LOG(LogTemp, Error, TEXT("TankAimingComponent == nullptr"));
+			return;
+		}
+		FTransform SpawnTransform = TankAimingComponent->GetBarrelSocketTransform();
+		AProjectile* SpawnedProjectile = World->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnTransform, SpawnParams);
+	}
 }
 
 void ATank::AimAt(FVector HitLocation)
