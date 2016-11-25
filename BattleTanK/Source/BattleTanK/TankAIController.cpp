@@ -4,11 +4,20 @@
 #include "TankAIController.h"
 #include "Tank.h"
 
+
+ATankAIController::ATankAIController()
+{
+	PrimaryActorTick.bCanEverTick = true;
+}
+
+
 void ATankAIController::BeginPlay()
 {
 	Super::BeginPlay();
 
 }
+
+
 
 void ATankAIController::Tick(float DeltaSeconds)
 {

@@ -4,6 +4,10 @@
 #include "TankPlayerController.h"
 #include "Tank.h"
 
+ATankPlayerController::ATankPlayerController()
+{
+	PrimaryActorTick.bCanEverTick = true;
+}
 
 void ATankPlayerController::BeginPlay()
 {
@@ -85,6 +89,8 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	HitLocation = FVector::ZeroVector;
 	return false;
 }
+
+
 
 // get world location of linetrace through crosshair, true if it hits the landscape
 ATank* ATankPlayerController::GetControlledTank() const
