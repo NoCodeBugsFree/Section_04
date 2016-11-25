@@ -21,6 +21,8 @@ void ATank::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// can fire at start game
+	LastFireTime = GetWorld()->TimeSeconds - ReloadTimeInSeconds;
 }
 
 // Called every frame
@@ -38,26 +40,32 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 
 void ATank::Fire()
 {	
-
-	auto World = GetWorld();
-	if(World)
+	// FPlatformTime::Seconds()
+	bool bIsReloaded = GetWorld()->TimeSeconds - LastFireTime > ReloadTimeInSeconds;
+	if (bIsReloaded)
 	{
-		FActorSpawnParameters SpawnParams;
-		SpawnParams.Owner = this;
-		SpawnParams.Instigator = Instigator;
-
-		if (TankAimingComponent == nullptr)
+		auto World = GetWorld();
+		if (World)
 		{
-			UE_LOG(LogTemp, Error, TEXT("TankAimingComponent == nullptr"));
-			return;
-		}
-		FTransform SpawnTransform = TankAimingComponent->GetBarrelSocketTransform();
-		AProjectile* SpawnedProjectile = World->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnTransform, SpawnParams);
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = this;
+			SpawnParams.Instigator = Instigator;
 
-		if (SpawnedProjectile)
-		{
-			SpawnedProjectile->LaunchProjectile(LaunchSpeed);
+			if (TankAimingComponent == nullptr)
+			{
+				UE_LOG(LogTemp, Error, TEXT("TankAimingComponent == nullptr"));
+				return;
+			}
+			FTransform SpawnTransform = TankAimingComponent->GetBarrelSocketTransform();
+			AProjectile* SpawnedProjectile = World->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnTransform, SpawnParams);
+
+			if (SpawnedProjectile)
+			{
+				SpawnedProjectile->LaunchProjectile(LaunchSpeed);
+			}
 		}
+
+		LastFireTime = GetWorld()->TimeSeconds;
 	}
 }
 
