@@ -20,6 +20,13 @@ public:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 
+	void LaunchProjectile(float Speed);
+
+protected:
+
+
+private:
 	
-	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
+	UProjectileMovementComponent* ProjectileMovementComponent;
 };

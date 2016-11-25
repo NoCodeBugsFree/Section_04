@@ -37,9 +37,8 @@ void ATank::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 }
 
 void ATank::Fire()
-{
-	UE_LOG(LogTemp, Error, TEXT("ATank::Fire()"));
-	
+{	
+
 	auto World = GetWorld();
 	if(World)
 	{
@@ -54,6 +53,11 @@ void ATank::Fire()
 		}
 		FTransform SpawnTransform = TankAimingComponent->GetBarrelSocketTransform();
 		AProjectile* SpawnedProjectile = World->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnTransform, SpawnParams);
+
+		if (SpawnedProjectile)
+		{
+			SpawnedProjectile->LaunchProjectile(LaunchSpeed);
+		}
 	}
 }
 
