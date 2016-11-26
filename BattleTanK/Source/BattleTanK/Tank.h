@@ -49,13 +49,13 @@ private:
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	
 	/**  sensible starting value 1700 m/s */
-	UPROPERTY(EditAnywhere, Category = "AAA")
+	UPROPERTY(EditDefaultsOnly, Category = "AAA")
 	float LaunchSpeed = 10000.f;
 
-	UPROPERTY(EditAnywhere, Category = "Setup")
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
-	UPROPERTY(EditAnywhere, Category = "AAA")
+	UPROPERTY(EditDefaultsOnly, Category = "AAA")
 	float ReloadTimeInSeconds = 3.f;
 
 	float LastFireTime = 0.f;

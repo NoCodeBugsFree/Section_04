@@ -24,15 +24,15 @@ protected:
 private:
 	
 	/** Sensible Default  */
-	UPROPERTY(EditAnywhere, Category = "AAA")
+	UPROPERTY(EditDefaultsOnly, Category = "AAA")
 	float MaxDegreesPerSecond = 5.f;
 
 	/** Sensible Default  */
-	UPROPERTY(EditAnywhere, Category = "AAA")
+	UPROPERTY(EditDefaultsOnly, Category = "AAA")
 	float MaxElevationDegrees = 35.f;
 
 	/** Sensible Default  */
-	UPROPERTY(EditAnywhere, Category = "AAA")
+	UPROPERTY(EditDefaultsOnly, Category = "AAA")
 	float MinElevationDegrees = 0.f;
 
 
