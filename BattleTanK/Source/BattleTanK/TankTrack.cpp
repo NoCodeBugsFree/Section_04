@@ -5,9 +5,6 @@
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	auto Name = GetName();
-	UE_LOG(LogTemp, Error, TEXT("%s throttle : %f"), *Name, Throttle);
-
 	// TODO clamp Throttle so player can't overdrive
 	FVector ForceApplied = GetForwardVector() * Throttle * TrackMaxDrivingForce;
 	FVector ForceLocation = GetComponentLocation();
