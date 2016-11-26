@@ -30,13 +30,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AAA")
 	void Fire();
 
+	
+
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
 	UTankAimingComponent* TankAimingComponent;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
-	UTankMovementComponent* TankMovementComponent;
 
 private:
 
