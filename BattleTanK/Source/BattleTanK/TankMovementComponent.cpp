@@ -40,6 +40,13 @@ void UTankMovementComponent::Initialize(UTankTrack* LeftTrackToSet, UTankTrack* 
 void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed)
 {
 	// No super - we're replacing - in general way path finding logic call Super to move AI
-	FString TankName = GetOwner()->GetName();
-	UE_LOG(LogTemp, Error, TEXT("%s MoveVelocity = %s"), *TankName, *MoveVelocity.ToString());
+	FVector AIForwardIntention = MoveVelocity.GetSafeNormal();
+	FVector TankForward = GetOwner()->GetActorForwardVector().GetSafeNormal();
+
+	// Calculate the dot product of two vectors.
+	// A * B = ||A|| ||B|| cos @, where is @ is angle between A and B
+	// Y-axis is throw and X-axis is AIForwardIntention
+	float ForwardThrow = FVector::DotProduct(AIForwardIntention, TankForward);
+
+	IntendMoveForward(ForwardThrow);
 }
