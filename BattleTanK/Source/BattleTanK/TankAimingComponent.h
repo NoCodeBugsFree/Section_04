@@ -5,6 +5,15 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+UENUM(BlueprintType)
+enum class EFiringStatus : uint8
+{
+	Locked, 
+	Aiming,
+	Reloading
+};
+
+
 class UTankBarrel;
 class UTankTurret;
 
@@ -44,5 +53,8 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
 	UTankTurret* Turret;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
+	EFiringStatus FiringStatus = EFiringStatus::Reloading;
 	
 };
