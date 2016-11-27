@@ -24,8 +24,12 @@ public:
 protected:
 
 	
-
+	
 private:
+
+	/**  How close can AI tank get  */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
+	float AcceptanceRadius = 3100.f;
 
 	virtual void Tick(float DeltaSeconds) override;
 

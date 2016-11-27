@@ -22,7 +22,13 @@ public:
 	void IntendMoveForward(float Throw);
 
 	UFUNCTION(BlueprintCallable, Category = "AAA")
+	void IntendTurnRight(float Throw);
+
+	UFUNCTION(BlueprintCallable, Category = "AAA")
 	void Initialize(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
+
+	/** Path following: request new velocity  */
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 
 protected:
 
