@@ -90,8 +90,6 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	return false;
 }
 
-
-
 // get world location of linetrace through crosshair, true if it hits the landscape
 ATank* ATankPlayerController::GetControlledTank() const
 {

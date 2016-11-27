@@ -20,7 +20,7 @@ public:
 
 	ATankPlayerController();
 
-	ATank* GetControlledTank() const;
+	
 
 	virtual void BeginPlay() override;
 
@@ -37,7 +37,8 @@ public:
 
 protected:
 
-
+	UFUNCTION(BlueprintCallable, Category = "AAA")
+	ATank* GetControlledTank() const;
 
 private:
 	

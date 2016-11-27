@@ -29,9 +29,7 @@ public:
 	/** Tank Fires  */
 	UFUNCTION(BlueprintCallable, Category = "AAA")
 	void Fire();
-
 	
-
 protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))

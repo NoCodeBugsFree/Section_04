@@ -20,7 +20,6 @@ void UTankMovementComponent::IntendTurnRight(float Throw)
 	{
 		LeftTrack->SetThrottle(Throw);
 		RightTrack->SetThrottle(-Throw);
-		// TODO prevent double speed due to dual control use
 	}
 }
 
@@ -50,7 +49,7 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 	IntendMoveForward(ForwardThrow);
 
 	// Calculate the cross product of two vectors.
-	// A CROSS B = ||A|| ||B|| sin @  N , where @ is angle between A and B in the plain 
+	// A CROSS  B = ||A|| ||B|| sin @  N , where @ is angle between A and B in the plain  // * is Cross
 	// containing them (hence, it is between 0 and 180), ||A|| and ||B|| are the magnitudes
 	// and N is a unit vector perpendicular to the plane
 	FVector RightThrow = FVector::CrossProduct(TankForward, AIForwardIntention);

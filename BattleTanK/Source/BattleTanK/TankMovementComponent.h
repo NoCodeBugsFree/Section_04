@@ -27,14 +27,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AAA")
 	void Initialize(UTankTrack* LeftTrackToSet, UTankTrack* RightTrackToSet);
 
-	/** Path following: request new velocity  */
-	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
-
 protected:
 
 
 
 private:
+
+	/** Path following: request new velocity  
+	  * Called from the path finding logic by the AI controller
+	*/
+	virtual void RequestDirectMove(const FVector& MoveVelocity, bool bForceMaxSpeed) override;
 	
 	UTankTrack* LeftTrack;
 
