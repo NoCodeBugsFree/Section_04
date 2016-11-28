@@ -50,7 +50,7 @@ private:
 
 	float LastFireTime = 0.f;
 
-
+	UPROPERTY()
 	UTankAimingComponent* TankAimingComponent;
 
 };
