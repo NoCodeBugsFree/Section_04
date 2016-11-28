@@ -23,8 +23,6 @@ void ATank::BeginPlay()
 	LastFireTime = GetWorld()->TimeSeconds - ReloadTimeInSeconds;
 
 	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
-
-	if (!ensure(TankAimingComponent)) { return; }
 }
 
 // Called every frame

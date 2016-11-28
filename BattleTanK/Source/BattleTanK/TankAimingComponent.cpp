@@ -66,6 +66,8 @@ void UTankAimingComponent::Initialize(UTankBarrel* TankBarrelToSet, UTankTurret*
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
+	if (!ensure(Barrel && Turret)) { return; }
+
 	// Work-out difference between current barrel rotation and AimDirection
 
 	// Return the FRotator orientation corresponding to the direction in which the vector points.
@@ -75,7 +77,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	FRotator DeltaRotator = AimAsRotator - BarrelRotator;
 	
 	// Move the barrel and turret the right amount this frame
-	if (!ensure(Barrel && Turret)) { return; }
 
 	Barrel->Elevate(DeltaRotator.Pitch); 
 	Turret->Rotate(DeltaRotator.Yaw);
