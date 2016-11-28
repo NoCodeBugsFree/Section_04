@@ -46,18 +46,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	} // no aiming solution found ...
 }
 
-void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
-{
-	if (BarrelToSet == nullptr) { return; }
-	Barrel = BarrelToSet;
-}
-
-void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
-{
-	if (TurretToSet == nullptr) { return; }
-	Turret = TurretToSet;
-}
-
 FTransform UTankAimingComponent::GetBarrelSocketTransform() const
 {
 	if (Barrel)
@@ -68,6 +56,19 @@ FTransform UTankAimingComponent::GetBarrelSocketTransform() const
 	{
 		UE_LOG(LogTemp, Error, TEXT("Barrel is NULL!"));
 		return FTransform();
+	}
+}
+
+void UTankAimingComponent::Initialize(UTankBarrel* TankBarrelToSet, UTankTurret* TankTurretToSet)
+{
+	if (TankBarrelToSet && TankTurretToSet)
+	{
+		Barrel = TankBarrelToSet;
+		Turret = TankTurretToSet;
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("UTankAimingComponent::Initialize ERROR!"));
 	}
 }
 

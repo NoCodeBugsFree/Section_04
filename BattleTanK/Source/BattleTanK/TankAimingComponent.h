@@ -6,7 +6,7 @@
 #include "TankAimingComponent.generated.h"
 
 UENUM(BlueprintType)
-enum class EFiringStatus : uint8
+enum class EFiringState : uint8 // uint8 - cross platform independence
 {
 	Locked, 
 	Aiming,
@@ -34,11 +34,10 @@ public:
 	
 	void AimAt(FVector HitLocation, float LaunchSpeed);
 
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	void SetTurretReference(UTankTurret* TurretToSet);
-
 	FTransform GetBarrelSocketTransform() const;
+
+	UFUNCTION(BlueprintCallable, Category = "AAA")
+	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
 protected:
 
@@ -55,6 +54,6 @@ private:
 	UTankTurret* Turret;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
-	EFiringStatus FiringStatus = EFiringStatus::Reloading;
+	EFiringState FiringStatus = EFiringState::Reloading;
 	
 };
