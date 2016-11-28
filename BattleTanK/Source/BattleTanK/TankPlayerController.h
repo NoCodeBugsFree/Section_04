@@ -10,6 +10,7 @@
  */
 
 class ATank;
+class UTankAimingComponent;
 
 UCLASS()
 class BATTLETANK_API ATankPlayerController : public APlayerController
@@ -19,9 +20,7 @@ class BATTLETANK_API ATankPlayerController : public APlayerController
 public:
 
 	ATankPlayerController();
-
 	
-
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float DeltaTime) override;
@@ -34,8 +33,11 @@ public:
 	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
 
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation) const;
-
+	
 protected:
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "AAA")
+	void FoundAimingComponent(UTankAimingComponent* TankAimingComponentReference);
 
 	UFUNCTION(BlueprintCallable, Category = "AAA")
 	ATank* GetControlledTank() const;
