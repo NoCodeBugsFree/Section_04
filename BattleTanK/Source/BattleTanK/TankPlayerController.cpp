@@ -16,16 +16,9 @@ void ATankPlayerController::BeginPlay()
 
 	UTankAimingComponent* TankAimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
 
-	if (TankAimingComponent)
-	{
-		FoundAimingComponent(TankAimingComponent);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Set Up Aiming Component !!!"));
-	}
-
+	if (!ensure(TankAimingComponent)) { return; }
 	
+	FoundAimingComponent(TankAimingComponent);
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -37,11 +30,8 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!GetControlledTank())
-	{
-		return;
-	}
-
+	if (!ensure(GetControlledTank())) { return; }
+	
 	FVector HitLocation; // Out parameter
 	if (GetSightRayHitLocation(HitLocation)) // has a "side-effect". is going to linetrace 
 	{
@@ -68,7 +58,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 		// linetrace along that look direction and see what we hit (up to max range)
 		if (GetLookVectorHitLocation(LookDirection, HitLocation))
 		{
-
+			// TODO WTF here?
 		}
 	}
 	
@@ -106,14 +96,9 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 // get world location of linetrace through crosshair, true if it hits the landscape
 ATank* ATankPlayerController::GetControlledTank() const
 {
-	if (GetPawn())
-	{
-		return Cast<ATank>(GetPawn());
-	}
-	else
-	{
-		return nullptr;
-	}
+	if (!ensure(GetPawn())) { return nullptr; }
+	
+	return Cast<ATank>(GetPawn());
 }
 
 

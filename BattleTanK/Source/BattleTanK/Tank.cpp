@@ -23,6 +23,8 @@ void ATank::BeginPlay()
 	LastFireTime = GetWorld()->TimeSeconds - ReloadTimeInSeconds;
 
 	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
+
+	if (!ensure(TankAimingComponent)) { return; }
 }
 
 // Called every frame
@@ -45,18 +47,14 @@ void ATank::Fire()
 			SpawnParams.Owner = this;
 			SpawnParams.Instigator = Instigator;
 
-			if (TankAimingComponent == nullptr)
-			{
-				UE_LOG(LogTemp, Error, TEXT("TankAimingComponent == nullptr"));
-				return;
-			}
+			if (!ensure(TankAimingComponent)) { return; }
+
 			FTransform SpawnTransform = TankAimingComponent->GetBarrelSocketTransform();
 			AProjectile* SpawnedProjectile = World->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnTransform, SpawnParams);
 
-			if (SpawnedProjectile)
-			{
-				SpawnedProjectile->LaunchProjectile(LaunchSpeed);
-			}
+			if (!ensure(SpawnedProjectile)) { return; }
+			
+			SpawnedProjectile->LaunchProjectile(LaunchSpeed);
 		}
 
 		LastFireTime = GetWorld()->TimeSeconds;
@@ -65,5 +63,6 @@ void ATank::Fire()
 
 void ATank::AimAt(FVector HitLocation)
 {
+	if (!ensure(TankAimingComponent)) { return; }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }

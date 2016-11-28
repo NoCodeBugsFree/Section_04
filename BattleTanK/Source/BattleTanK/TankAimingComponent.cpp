@@ -31,7 +31,7 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if ( Barrel == nullptr || Turret == nullptr ) { return; }
+	if (!ensure(Barrel && Turret)) { return; }
 
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
@@ -48,28 +48,20 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 FTransform UTankAimingComponent::GetBarrelSocketTransform() const
 {
-	if (Barrel)
+	if (!ensure(Barrel))
 	{
-		return Barrel->GetSocketTransform("Projectile");
-	} 
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Barrel is NULL!"));
 		return FTransform();
 	}
+	
+	return Barrel->GetSocketTransform("Projectile");
 }
 
 void UTankAimingComponent::Initialize(UTankBarrel* TankBarrelToSet, UTankTurret* TankTurretToSet)
 {
-	if (TankBarrelToSet && TankTurretToSet)
-	{
-		Barrel = TankBarrelToSet;
-		Turret = TankTurretToSet;
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("UTankAimingComponent::Initialize ERROR!"));
-	}
+	if (!ensure(TankBarrelToSet && TankTurretToSet)) { return; }
+	
+	Barrel = TankBarrelToSet;
+	Turret = TankTurretToSet;
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
@@ -83,6 +75,8 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	FRotator DeltaRotator = AimAsRotator - BarrelRotator;
 	
 	// Move the barrel and turret the right amount this frame
+	if (!ensure(Barrel && Turret)) { return; }
+
 	Barrel->Elevate(DeltaRotator.Pitch); 
 	Turret->Rotate(DeltaRotator.Yaw);
 }
