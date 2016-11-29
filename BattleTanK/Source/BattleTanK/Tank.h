@@ -5,10 +5,8 @@
 #include "GameFramework/Pawn.h"
 #include "Tank.generated.h"
 
-class UTankBarrel;
-class UTankTurret;
-class AProjectile;
-class UTankAimingComponent;
+
+
 
 
 UCLASS()
@@ -17,12 +15,8 @@ class BATTLETANK_API ATank : public APawn
 	GENERATED_BODY()
 
 public:
-
-	void AimAt(FVector HitLocation);
-
-	/** Tank Fires  */
-	UFUNCTION(BlueprintCallable, Category = "AAA")
-	void Fire();
+	
+	
 	
 protected:
 
@@ -38,19 +32,8 @@ private:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 	
-	/**  sensible starting value 1700 m/s */
-	UPROPERTY(EditDefaultsOnly, Category = "AAA")
-	float LaunchSpeed = 10000.f;
+	
 
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	TSubclassOf<AProjectile> ProjectileBlueprint;
-
-	UPROPERTY(EditDefaultsOnly, Category = "AAA")
-	float ReloadTimeInSeconds = 3.f;
-
-	float LastFireTime = 0.f;
-
-	UPROPERTY()
-	UTankAimingComponent* TankAimingComponent;
+	
 
 };

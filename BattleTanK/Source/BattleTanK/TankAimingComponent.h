@@ -16,6 +16,7 @@ enum class EFiringState : uint8 // uint8 - cross platform independence
 
 class UTankBarrel;
 class UTankTurret;
+class AProjectile;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -31,8 +32,12 @@ public:
 	
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
+
+	/** Tank Fires  */
+	UFUNCTION(BlueprintCallable, Category = "AAA")
+	void Fire();
 	
-	void AimAt(FVector HitLocation, float LaunchSpeed);
+	void AimAt(FVector HitLocation);
 
 	FTransform GetBarrelSocketTransform() const;
 
@@ -41,7 +46,7 @@ public:
 
 protected:
 
-
+	
 
 private:
 
@@ -55,5 +60,17 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
 	EFiringState FiringStatus = EFiringState::Locked;
+
+	/**  sensible starting value 1700 m/s */
+	UPROPERTY(EditDefaultsOnly, Category = "AAA")
+	float LaunchSpeed = 10000.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UPROPERTY(EditDefaultsOnly, Category = "AAA")
+	float ReloadTimeInSeconds = 3.f;
+
+	float LastFireTime = 0.f;
 	
 };

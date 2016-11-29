@@ -4,6 +4,7 @@
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
+#include "Projectile.h" 
 
 
 // Sets default values for this component's properties
@@ -29,7 +30,29 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 }
 
-void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
+void UTankAimingComponent::Fire()
+{
+	// FPlatformTime::Seconds()
+	bool bIsReloaded = GetWorld()->TimeSeconds - LastFireTime > ReloadTimeInSeconds;
+	if (bIsReloaded)
+	{
+		auto World = GetWorld();
+		if (World)
+		{
+			FTransform SpawnTransform = GetBarrelSocketTransform();
+		
+			AProjectile* SpawnedProjectile = World->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnTransform);
+
+			if (!ensure(SpawnedProjectile)) { return; }
+
+			SpawnedProjectile->LaunchProjectile(LaunchSpeed);
+		}
+
+		LastFireTime = GetWorld()->TimeSeconds;
+	}
+}
+
+void UTankAimingComponent::AimAt(FVector HitLocation)
 {
 	if (!ensure(Barrel && Turret)) { return; }
 

@@ -2,7 +2,6 @@
 
 #include "BattleTanK.h"
 #include "TankPlayerController.h"
-#include "Tank.h"
 #include "TankAimingComponent.h"
 
 ATankPlayerController::ATankPlayerController()
@@ -14,7 +13,7 @@ void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UTankAimingComponent* TankAimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 
 	if (!ensure(TankAimingComponent)) { return; }
 	
@@ -30,12 +29,12 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!ensure(GetControlledTank())) { return; }
+	if (!ensure(GetPawn())) { return; }
 	
 	FVector HitLocation; // Out parameter
 	if (GetSightRayHitLocation(HitLocation)) // has a "side-effect". is going to linetrace 
 	{
-		GetControlledTank()->AimAt(HitLocation);
+		TankAimingComponent->AimAt(HitLocation);
 	}
 }
 
@@ -61,14 +60,11 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const
 			// TODO WTF here?
 		}
 	}
-	
-	
 	return true;
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const
 {
-	
 	// APlayerController::DeprojectScreenPositionToWorld
 	// Convert current mouse 2D position to World Space 3D position and direction. 
 	// Returns false if unable to determine value.
@@ -92,13 +88,4 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	HitLocation = FVector::ZeroVector;
 	return false;
 }
-
-// get world location of linetrace through crosshair, true if it hits the landscape
-ATank* ATankPlayerController::GetControlledTank() const
-{
-	if (!ensure(GetPawn())) { return nullptr; }
-	
-	return Cast<ATank>(GetPawn());
-}
-
 

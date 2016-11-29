@@ -4,8 +4,8 @@
 #include "Tank.h"
 #include "TankBarrel.h"
 #include "TankTurret.h"
-#include "Projectile.h"
-#include "TankAimingComponent.h"
+#include "Projectile.h" 
+#include "TankAimingComponent.h" // TODO REMOVE
 
 // Sets default values
 ATank::ATank()
@@ -18,49 +18,13 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
-	// can fire at start game
-	LastFireTime = GetWorld()->TimeSeconds - ReloadTimeInSeconds;
-
-	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 // Called every frame
 void ATank::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-
 }
 
-void ATank::Fire()
-{	
-	// FPlatformTime::Seconds()
-	bool bIsReloaded = GetWorld()->TimeSeconds - LastFireTime > ReloadTimeInSeconds;
-	if (bIsReloaded)
-	{
-		auto World = GetWorld();
-		if (World)
-		{
-			FActorSpawnParameters SpawnParams;
-			SpawnParams.Owner = this;
-			SpawnParams.Instigator = Instigator;
 
-			if (!ensure(TankAimingComponent)) { return; }
 
-			FTransform SpawnTransform = TankAimingComponent->GetBarrelSocketTransform();
-			AProjectile* SpawnedProjectile = World->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnTransform, SpawnParams);
-
-			if (!ensure(SpawnedProjectile)) { return; }
-			
-			SpawnedProjectile->LaunchProjectile(LaunchSpeed);
-		}
-
-		LastFireTime = GetWorld()->TimeSeconds;
-	}
-}
-
-void ATank::AimAt(FVector HitLocation)
-{
-	if (!ensure(TankAimingComponent)) { return; }
-	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
-}

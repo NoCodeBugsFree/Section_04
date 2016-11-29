@@ -9,7 +9,6 @@
  * 
  */
 
-class ATank;
 class UTankAimingComponent;
 
 UCLASS()
@@ -39,9 +38,6 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "AAA")
 	void FoundAimingComponent(UTankAimingComponent* TankAimingComponentReference);
 
-	UFUNCTION(BlueprintCallable, Category = "AAA")
-	ATank* GetControlledTank() const;
-
 private:
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
@@ -53,5 +49,8 @@ private:
 	/** 10 km  */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
 	float LineTraceRange = 1000000.f;
+
+	UPROPERTY()
+	UTankAimingComponent* TankAimingComponent;
 	
 };

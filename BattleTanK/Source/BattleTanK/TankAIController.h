@@ -9,7 +9,7 @@
  * 
  */
 
-class ATank;
+class UTankAimingComponent;
 
 UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
@@ -34,4 +34,7 @@ private:
 	virtual void Tick(float DeltaSeconds) override;
 
 	virtual void BeginPlay() override;
+
+	UPROPERTY()
+	UTankAimingComponent* TankAimingComponent;
 };
