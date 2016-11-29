@@ -24,22 +24,12 @@ class BATTLETANK_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
-	UTankAimingComponent();
-
-	// Called when the game starts
-	virtual void BeginPlay() override;
 	
-	// Called every frame
-	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
-
 	/** Tank Fires  */
 	UFUNCTION(BlueprintCallable, Category = "AAA")
 	void Fire();
 	
 	void AimAt(FVector HitLocation);
-
-	FTransform GetBarrelSocketTransform() const;
 
 	UFUNCTION(BlueprintCallable, Category = "AAA")
 	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
@@ -50,6 +40,15 @@ protected:
 
 private:
 
+	// Sets default values for this component's properties
+	UTankAimingComponent();
+
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
+	// Called every frame
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
 	void MoveBarrelTowards(FVector AimDirection);
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
@@ -59,7 +58,7 @@ private:
 	UTankTurret* Turret;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
-	EFiringState FiringStatus = EFiringState::Locked;
+	EFiringState FiringState = EFiringState::Reloading;
 
 	/**  sensible starting value 1700 m/s */
 	UPROPERTY(EditDefaultsOnly, Category = "AAA")
@@ -71,6 +70,9 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "AAA")
 	float ReloadTimeInSeconds = 3.f;
 
-	float LastFireTime = 0.f;
-	
+	float LastFireTime = -ReloadTimeInSeconds; // to be able fire instantly after level start
+
+	UPROPERTY(meta = (ClampMin = "0"), EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
+	int32 Ammo = 10;
+
 };

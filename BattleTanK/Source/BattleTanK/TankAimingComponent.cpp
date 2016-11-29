@@ -6,7 +6,6 @@
 #include "TankTurret.h"
 #include "Projectile.h" 
 
-
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
@@ -16,38 +15,53 @@ UTankAimingComponent::UTankAimingComponent()
 	
 }
 
-
 // Called when the game starts
 void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
+	LastFireTime = GetWorld()->TimeSeconds; // Ben wants initial reload ??? =)
 }
 
 // Called every frame
 void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction )
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
+	
+	if (Ammo <= 0)
+	{
+		FiringState = EFiringState::Locked;
+	}
+	else if (GetWorld()->TimeSeconds - LastFireTime > ReloadTimeInSeconds)
+	{
+		FiringState = EFiringState::Aiming;
+	}
+	else 
+	{
+		FiringState = EFiringState::Reloading;
+	}
 }
 
 void UTankAimingComponent::Fire()
-{
-	// FPlatformTime::Seconds()
-	bool bIsReloaded = GetWorld()->TimeSeconds - LastFireTime > ReloadTimeInSeconds;
-	if (bIsReloaded)
+{	
+	if (FiringState != EFiringState::Reloading && Ammo > 0)
 	{
+		if (!ensure(Barrel)) { return; }
+		if (!ensure(ProjectileBlueprint)) { return; }
 		auto World = GetWorld();
 		if (World)
 		{
-			FTransform SpawnTransform = GetBarrelSocketTransform();
+			FTransform SpawnTransform = Barrel->GetSocketTransform("Projectile");
 		
 			AProjectile* SpawnedProjectile = World->SpawnActor<AProjectile>(ProjectileBlueprint, SpawnTransform);
 
 			if (!ensure(SpawnedProjectile)) { return; }
 
+			Ammo--;
+
 			SpawnedProjectile->LaunchProjectile(LaunchSpeed);
 		}
-
+		
 		LastFireTime = GetWorld()->TimeSeconds;
 	}
 }
@@ -67,16 +81,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 		FVector AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
 	} // no aiming solution found ...
-}
-
-FTransform UTankAimingComponent::GetBarrelSocketTransform() const
-{
-	if (!ensure(Barrel))
-	{
-		return FTransform();
-	}
-	
-	return Barrel->GetSocketTransform("Projectile");
 }
 
 void UTankAimingComponent::Initialize(UTankBarrel* TankBarrelToSet, UTankTurret* TankTurretToSet)
