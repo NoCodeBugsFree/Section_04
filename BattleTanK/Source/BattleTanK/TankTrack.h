@@ -19,11 +19,22 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AAA")
 	void SetThrottle(float Throttle);
 
+	UTankTrack();
+
+	// Called every frame
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
 protected:
 
 
 
 private:
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 	
 	/** Max force per track in Newtons */
 	UPROPERTY(EditDefaultsOnly, Category = "AAA")

@@ -40,6 +40,10 @@ protected:
 
 private:
 
+	FVector AimDirection;
+
+	bool IsBarrelMoving();
+
 	// Sets default values for this component's properties
 	UTankAimingComponent();
 
@@ -49,7 +53,7 @@ private:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void MoveBarrelTowards(FVector AimDirection);
+	void MoveBarrelTowards();
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
 	UTankBarrel* Barrel;

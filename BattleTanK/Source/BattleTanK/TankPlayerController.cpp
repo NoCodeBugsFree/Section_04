@@ -29,7 +29,7 @@ void ATankPlayerController::Tick(float DeltaTime)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	if (!ensure(GetPawn())) { return; }
+	if (!GetPawn()) { return; } // if not possessing
 	
 	FVector HitLocation; // Out parameter
 	if (GetSightRayHitLocation(HitLocation)) // has a "side-effect". is going to linetrace 
