@@ -10,7 +10,8 @@ enum class EFiringState : uint8 // uint8 - cross platform independence
 {
 	Locked, 
 	Aiming,
-	Reloading
+	Reloading,
+	OutOfAmmo
 };
 
 
@@ -34,9 +35,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AAA")
 	void Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet);
 
+	UFUNCTION(BlueprintCallable, Category = "AAA")
+	EFiringState GetFiringState() const { return FiringState; }
+
+	UFUNCTION(BlueprintCallable, Category = "AAA")
+	int32 GetRoundsLeft() const { return RoundsLeft; }
+
 protected:
 
-	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
+	EFiringState FiringState = EFiringState::Reloading;
 
 private:
 
@@ -61,9 +69,6 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
 	UTankTurret* Turret;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
-	EFiringState FiringState = EFiringState::Reloading;
-
 	/**  sensible starting value 1700 m/s */
 	UPROPERTY(EditDefaultsOnly, Category = "AAA")
 	float LaunchSpeed = 10000.f;
@@ -77,6 +82,6 @@ private:
 	float LastFireTime = -ReloadTimeInSeconds; // to be able fire instantly after level start
 
 	UPROPERTY(meta = (ClampMin = "0"), EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
-	int32 Ammo = 10;
+	int32 RoundsLeft = 10;
 
 };

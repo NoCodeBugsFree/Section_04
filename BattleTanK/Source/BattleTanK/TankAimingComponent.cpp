@@ -28,9 +28,9 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 {
 	Super::TickComponent( DeltaTime, TickType, ThisTickFunction );
 	
-	if (Ammo <= 0)
+	if (RoundsLeft <= 0)
 	{
-		FiringState = EFiringState::Locked;
+		FiringState = EFiringState::OutOfAmmo;
 	}
 	else if (GetWorld()->TimeSeconds - LastFireTime < ReloadTimeInSeconds)
 	{
@@ -38,6 +38,7 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 	}
 	else if (IsBarrelMoving())
 	{
+		FiringState = EFiringState::Aiming;
 	}
 	else 
 	{
@@ -47,7 +48,7 @@ void UTankAimingComponent::TickComponent( float DeltaTime, ELevelTick TickType, 
 
 void UTankAimingComponent::Fire()
 {	
-	if (FiringState != EFiringState::Reloading && Ammo > 0)
+	if (FiringState == EFiringState::Locked || FiringState == EFiringState::Aiming)
 	{
 		if (!ensure(Barrel)) { return; }
 		if (!ensure(ProjectileBlueprint)) { return; }
@@ -60,7 +61,7 @@ void UTankAimingComponent::Fire()
 
 			if (!ensure(SpawnedProjectile)) { return; }
 
-			Ammo--;
+			RoundsLeft--;
 
 			SpawnedProjectile->LaunchProjectile(LaunchSpeed);
 		}
@@ -109,11 +110,11 @@ void UTankAimingComponent::MoveBarrelTowards()
 	// Move the barrel and turret the right amount this frame
 	// Always Yaw the shortest way
 	Barrel->Elevate(DeltaRotator.Pitch); 
-	if (DeltaRotator.Yaw < 180.f)
+	if (FMath::Abs(DeltaRotator.Yaw) < 180.f)
 	{
 		Turret->Rotate(DeltaRotator.Yaw);
 	} 
-	else
+	else // avoid going the long way round
 	{
 		Turret->Rotate(-DeltaRotator.Yaw);
 	}
