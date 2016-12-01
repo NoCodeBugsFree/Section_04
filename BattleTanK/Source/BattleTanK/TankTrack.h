@@ -19,10 +19,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "AAA")
 	void SetThrottle(float Throttle);
 
+	void DriveTrack();
+
 	UTankTrack();
 
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	void ApplySidewaysForce();
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
@@ -32,6 +36,8 @@ protected:
 
 
 private:
+
+	float CurrentThrottle;
 
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
