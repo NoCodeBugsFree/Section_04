@@ -16,7 +16,7 @@ void ATankAIController::BeginPlay()
 	Super::BeginPlay();
 
 	TankAimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
-	
+
 }
 
 void ATankAIController::Tick(float DeltaSeconds)
@@ -27,7 +27,7 @@ void ATankAIController::Tick(float DeltaSeconds)
 	APawn* ControlledTank = GetPawn();
 
 	if (!ensure(PlayerTank && ControlledTank && TankAimingComponent)) { return; }
-	
+
 	// move towards the player
 	MoveToActor(PlayerTank, AcceptanceRadius);
 

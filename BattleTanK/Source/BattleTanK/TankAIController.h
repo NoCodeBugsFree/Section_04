@@ -6,30 +6,30 @@
 #include "TankAIController.generated.h"
 
 /**
- * 
- */
+*
+*/
 
 class UTankAimingComponent;
 
 UCLASS()
-class BATTLETANK_API ATankAIController : public AAIController
+class BATTLETANK_API ATankAIController : public AAIController//public AAIController
 {
 	GENERATED_BODY()
-	
+
 public:
 
 	ATankAIController();
-	
+
 
 protected:
 
-	
-	
+
+
 private:
 
-	/**  How close can AI tank get  */
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
-	float AcceptanceRadius = 80000.f;
+		float AcceptanceRadius = 80000.f;
 
 	virtual void Tick(float DeltaSeconds) override;
 
@@ -37,4 +37,5 @@ private:
 
 	UPROPERTY()
 	UTankAimingComponent* TankAimingComponent;
+
 };
