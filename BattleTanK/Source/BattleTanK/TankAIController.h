@@ -12,7 +12,7 @@
 class UTankAimingComponent;
 
 UCLASS()
-class BATTLETANK_API ATankAIController : public AAIController//public AAIController
+class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 
@@ -29,7 +29,7 @@ private:
 
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
-		float AcceptanceRadius = 80000.f;
+	float AcceptanceRadius = 80000.f;
 
 	virtual void Tick(float DeltaSeconds) override;
 
