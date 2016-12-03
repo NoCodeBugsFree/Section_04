@@ -27,10 +27,13 @@ protected:
 
 private:
 
-	void OnTimerExpire();
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
+	float ProjectileDamage = 20.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
 	float DestroyDelay = 0.5f;
+
+	void OnTimerExpire();
 
 	/** Function to handle the projectile hitting something */
 	UFUNCTION()
