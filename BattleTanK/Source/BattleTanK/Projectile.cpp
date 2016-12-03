@@ -28,6 +28,10 @@ AProjectile::AProjectile()
 	// FAttachmentTransformRules - Rules for attaching components
 	ImpactBlast->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	ImpactBlast->bAutoActivate = false;
+
+	ExplosionForce = CreateDefaultSubobject<URadialForceComponent>(TEXT("ExplosionForce"));
+	ExplosionForce->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
 }
 
 // Called when the game starts or when spawned
@@ -51,14 +55,24 @@ void AProjectile::LaunchProjectile(float Speed)
 	ProjectileMovementComponent->Activate();
 }
 
+void AProjectile::OnTimerExpire()
+{
+	Destroy();
+}
+
 void AProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr))
 	{
 		LaunchBlast->Deactivate();
-		ImpactBlast->Activate(true);
-		ImpactBlast->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-		SetLifeSpan(1.f);
+		ImpactBlast->Activate();
+		ExplosionForce->FireImpulse();
+		
+		SetRootComponent(ImpactBlast);
+		CollisionMesh->DestroyComponent();
+
+		FTimerHandle DestroyTimer;
+		GetWorld()->GetTimerManager().SetTimer(DestroyTimer, this, &AProjectile::OnTimerExpire, DestroyDelay, false);
 	}
 }
 
