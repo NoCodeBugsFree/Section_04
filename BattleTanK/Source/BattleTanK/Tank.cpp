@@ -28,8 +28,7 @@ void ATank::Tick( float DeltaTime )
 
 float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AController * EventInstigator, AActor* DamageCauser)
 {
-	int32 DamagePoints = FPlatformMath::RoundToInt(DamageAmount);
-	int32 DamageToApply = FMath::Clamp(DamageAmount, 0, CurrentHealth);
+	float DamageToApply = FMath::Clamp<float>(DamageAmount, 0, CurrentHealth);
 
 	CurrentHealth -= DamageToApply;
 	if (CurrentHealth <= 0)
@@ -37,8 +36,16 @@ float ATank::TakeDamage(float DamageAmount, FDamageEvent const & DamageEvent, AC
 		// DIE
 	}
 	
-
-	return ActualDamage;
+	return DamageToApply;
 }
 
+float ATank::GetHealthPercent() const
+{
+	return CurrentHealth / StartingHealth;
+}
+
+float ATank::GetCurrentHealth() const
+{
+	return CurrentHealth;
+}
 
