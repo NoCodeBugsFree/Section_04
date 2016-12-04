@@ -31,12 +31,11 @@ protected:
 private:
 
 	
-
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
 	float StartingHealth = 100.f;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
-	float CurrentHealth = StartingHealth;
+	float CurrentHealth = 0.f;
 
 	// Sets default values for this pawn's properties
 	ATank();
@@ -47,8 +46,4 @@ private:
 	// Called every frame
 	virtual void Tick( float DeltaSeconds ) override;
 	
-	
-
-	
-
 };

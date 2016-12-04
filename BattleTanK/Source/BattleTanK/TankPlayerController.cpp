@@ -104,10 +104,14 @@ void ATankPlayerController::SetPawn(APawn* InPawn)
 
 void ATankPlayerController::OnPossessedTankDeath()
 {
-	UE_LOG(LogTemp, Error, TEXT("You dead!"));
-
+	if (!ensure(GetPawn())) { return; }
 	ATank* PossessedTank = Cast<ATank>(GetPawn());
-	PossessedTank->OnTankDeath.Clear();
-	UnPossess();
+	if (PossessedTank)
+	{
+		PossessedTank->OnTankDeath.Clear();
+		// APlayerController::StartSpectatingOnly
+		// Start spectating mode, as the only mode allowed.
+		StartSpectatingOnly();
+	}
 }
 

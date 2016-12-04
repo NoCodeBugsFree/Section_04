@@ -51,17 +51,22 @@ void ATankAIController::SetPawn(APawn* InPawn)
 		if (!ensure(PossessedTank)) { return; }
 
 		// subscribe our local method to the tank's death event
-		// TODO check this in BeginPlay
+		// checked this in BeginPlay - valid !!!
 		PossessedTank->OnTankDeath.AddUniqueDynamic(this, &ATankAIController::OnPossessedTankDeath);
 	}
 }
 
 void ATankAIController::OnPossessedTankDeath()
-{
-	FString TankName = GetPawn()->GetName();
-	UE_LOG(LogTemp, Error, TEXT("%s is dead!"), *TankName);
-	
+{	
+	// Clear Delegates
+	if (!ensure(GetPawn())) { return; } // TODO remove ensure if work correctly
+
 	ATank* PossessedTank = Cast<ATank>(GetPawn());
-	PossessedTank->OnTankDeath.Clear();
-	UnPossess();
+	if (PossessedTank)
+	{
+		PossessedTank->OnTankDeath.Clear();
+		// Call this function to detach safely pawn from its controller, 
+		// knowing that we will be destroyed soon
+		PossessedTank->DetachFromControllerPendingDestroy();
+	}
 }
