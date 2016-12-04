@@ -27,6 +27,10 @@ protected:
 
 private:
 
+	UFUNCTION()
+	void OnPossessedTankDeath();
+
+	virtual void SetPawn(APawn* InPawn) override;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
 	float AcceptanceRadius = 80000.f;

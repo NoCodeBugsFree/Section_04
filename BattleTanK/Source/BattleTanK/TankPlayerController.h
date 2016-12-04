@@ -39,6 +39,11 @@ protected:
 	void FoundAimingComponent(UTankAimingComponent* TankAimingComponentReference);
 
 private:
+
+	virtual void SetPawn(APawn* InPawn) override;
+
+	UFUNCTION()
+	void OnPossessedTankDeath();
 	
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
 	float CrosshairXLocation = 0.5f;
