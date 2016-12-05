@@ -45,9 +45,11 @@ private:
 	UFUNCTION()
 	void OnPossessedTankDeath();
 	
+	/** Warning ! this one depends on your PlayerIU aim point */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
 	float CrosshairXLocation = 0.5f;
 
+	/** Warning ! this one depends on your PlayerIU aim point */
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "AAA", meta = (AllowPrivateAccess = "true"))
 	float CrosshairYLocation = 0.33333f;
 
