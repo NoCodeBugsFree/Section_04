@@ -82,7 +82,7 @@ bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVec
 	FVector StartLocation = PlayerCameraManager->GetCameraLocation(); // may be muzzle location ?
 	FVector EndLocation = StartLocation + LineTraceRange * LookDirection;
 	
-	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECollisionChannel::ECC_Visibility))
+	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECollisionChannel::ECC_Camera))
 	{
 		HitLocation = HitResult.Location;
 		return true;
