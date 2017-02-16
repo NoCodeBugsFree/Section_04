@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.13",
+	"EngineAssociation": "4.15",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -11,18 +11,6 @@
 			"AdditionalDependencies": [
 				"AIModule"
 			]
-		}
-	],
-	"Plugins": [
-		{
-			"Name": "LowEntryExtStdLib",
-			"Enabled": true,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/846c2ad08f164f45b0335ecebf85361e"
-		},
-		{
-			"Name": "KantanCharts",
-			"Enabled": true,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/89bd18db011b4bd19606db2e31020f13"
 		}
 	]
 }
